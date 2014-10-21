@@ -13,31 +13,13 @@ class MainProgram
   def self.do_option
     case @input_command[0]
     when "list"
-      t = Task.all
-      t.each do |e|
-        print "#{e.id}. "
-        if e.completion_status == 1
-          print "(x)"
-        else
-          print "( )"
-        end
-        print e.todo
-        puts
-      end
+     Task.list!
     when "add"
-      task = @input_command[1..-1].join(" ")
-      Task.create(todo: task, created_at: Time.now, updated_at: Time.now)
+      Task.add!(@input_command[1..-1].join(" "))
     when "delete"
-      id = @input_command[1]
-      Task.where(id: id).destroy_all
+      Task.delete!(@input_command[1])
     when "complete"
-      id = @input_command[1]
-      t = Task.find(id)
-
-      t.completion_status = 1
-      t.save!
-
-
+      Task.completed!(@input_command[1])
     else
       puts "Wrong Input Option"
     end
